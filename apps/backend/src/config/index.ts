@@ -8,6 +8,9 @@ const config = {
     username: process.env.MONGO_USERNAME || '',
     password: process.env.MONGO_PASSWORD || '',
   },
+  log: {
+    level: process.env.LOG_LEVEL || 'debug',
+  },
 };
 
 export default config;
