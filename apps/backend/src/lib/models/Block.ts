@@ -11,6 +11,8 @@ const PromptBlockSchema = new Schema<PromptBlock>(
       required: true,
       default: v4,
     },
+    title: { type: String, required: true },
+    slug: { type: String, required: true },
     type: { type: String, required: true },
     content: { type: String, required: true },
   },
