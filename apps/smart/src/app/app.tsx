@@ -1,14 +1,24 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
+import { ToastContainer } from 'react-toastify';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient, axios } from '../query';
 
-import NxWelcome from './nx-welcome';
+const environment = {
+  api: {
+    url: 'http://localhost:6500',
+  },
+};
 
-export function App() {
+axios.initialize(environment);
+
+const AppProviders = () => {
   return (
-    <div>
-      <NxWelcome title="smart" />
-    </div>
+    <QueryClientProvider client={queryClient.client}>
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   );
-}
+};
 
-export default App;
+export default AppProviders;

@@ -22,6 +22,6 @@ test-smart:
 
 
 .PHONY: test-backend
-test-smart:
+test-backend:
 	@echo "Running backend tests"
 	npx nx e2e backend-e2e
