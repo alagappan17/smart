@@ -12,7 +12,6 @@ const useStyles = {
     color: 'black',
     boxShadow: 'none',
     fontSize: 40,
-    fontFamily: 'Barlow Condensed, sans-serif',
   },
   navLogo: {
     cursor: 'pointer',
