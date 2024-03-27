@@ -8,10 +8,10 @@ type LessonItemTableRowProps = {
 const BlockItemTableRow = ({ block }: LessonItemTableRowProps) => {
   return (
     <TableRow hover={true} style={{ cursor: 'pointer' }}>
-      <TableCell sx={{ textAlign: 'center' }}>{block.id}</TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{block.title}</TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{block.slug}</TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{block.content}</TableCell>
+      <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.id}</TableCell>
+      <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.slug}</TableCell>
+      <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.title}</TableCell>
+      <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.content}</TableCell>
     </TableRow>
   );
 };
