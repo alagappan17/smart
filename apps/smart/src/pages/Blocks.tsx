@@ -6,6 +6,8 @@ import BlockItemTableRow from '../components/blocks/BlockItemTableRow';
 import { toast } from 'react-toastify';
 import { Add } from '@mui/icons-material';
 import BlockModal from '../components/blocks/BlockModal';
+import ReadMoreModal from '../components/blocks/ReadMoreModal';
+import { set } from 'mongoose';
 
 const useStyles = {
   title: {
@@ -21,7 +23,7 @@ const useStyles = {
   },
 };
 
-const TABLEHEADERS = ['ID', 'Slug', 'Title', 'Content'];
+const TABLEHEADERS = ['ID', 'Slug', 'Title', 'Content', 'Actions'];
 
 const Blocks = () => {
   const [page, setPage] = useState(0);
@@ -30,6 +32,8 @@ const Blocks = () => {
 
   const [blocks, setBlocks] = useState<PromptBlock[]>([]);
   const [expanded, setExpanded] = useState(false);
+  const [readMoreExpanded, setReadMoreExpanded] = useState(false);
+  const [selectedBlock, setSelectedBlock] = useState<PromptBlock | null>(null);
 
   const { data, refetch } = useGetBlocks(page * rowsPerPage, rowsPerPage);
 
@@ -48,18 +52,33 @@ const Blocks = () => {
     }
   }, [data]);
 
+  const onReadMore = (block: PromptBlock) => {
+    console.log('Blocks', block);
+    setReadMoreExpanded(true);
+    setSelectedBlock(block);
+  };
+
   const handleAddClick = () => {
     setExpanded(true);
   };
 
   const onFormClose = () => {
+    setSelectedBlock(null);
     setExpanded(false);
+  };
+
+  const onReadMoreClose = () => {
+    setReadMoreExpanded(false);
   };
 
   const onFormSubmit = () => {
     setExpanded(false);
-    toast.success('Block Created Successfully!');
     refetch();
+  };
+
+  const onEditClick = (block: PromptBlock) => {
+    setExpanded(true);
+    setSelectedBlock(block);
   };
 
   return (
@@ -78,7 +97,7 @@ const Blocks = () => {
             <TableRow>
               {TABLEHEADERS.map((header: string) => {
                 return (
-                  <TableCell sx={useStyles.tableHeader} key={header}>
+                  <TableCell width={1} sx={useStyles.tableHeader} key={header}>
                     {header}
                   </TableCell>
                 );
@@ -87,7 +106,7 @@ const Blocks = () => {
           </TableHead>
           <TableBody>
             {blocks.map((block: PromptBlock) => (
-              <BlockItemTableRow key={block.id} block={block} />
+              <BlockItemTableRow key={block.id} block={block} onReadMore={onReadMore} editClick={onEditClick} />
             ))}
           </TableBody>
           <TableFooter>
@@ -106,7 +125,8 @@ const Blocks = () => {
           </TableFooter>
         </Table>
       </TableContainer>
-      <BlockModal open={expanded} onClose={onFormClose} onSubmit={onFormSubmit} />
+      <BlockModal open={expanded} block={selectedBlock} onClose={onFormClose} onSubmit={onFormSubmit} />
+      {selectedBlock && <ReadMoreModal open={readMoreExpanded} block={selectedBlock} onClose={onReadMoreClose} />}
     </Container>
   );
 };

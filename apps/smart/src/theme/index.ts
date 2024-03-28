@@ -25,16 +25,39 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: '#000000', // Black for Input Label
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white', // Keep the same background when not active
+        },
+      },
+    },
     MuiButton: {
       defaultProps: {
         variant: 'outlined',
       },
       styleOverrides: {
         root: {
+          color: 'black',
           borderColor: 'black', // Slightly darker border for contrast
           textTransform: 'uppercase', // Avoid uppercase button labels
           borderRadius: 10, // Subtle rounded border
           border: '1px solid black', // Slightly thicker border
+          '&:hover': {
+            borderColor: 'black', // Darken the border
+            backgroundColor: '#333131', // Darken the background
+            color: 'white', // Lighten the text color
+            transform: 'translate(-1px, -1px)',
+            boxShadow: '5px 5px 0px 0px grey', // Slightly raised button
+            transition: 'all 0.2s', // Smooth transition
+          },
         },
       },
     },

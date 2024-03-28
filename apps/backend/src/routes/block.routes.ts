@@ -25,6 +25,14 @@ const CreateBlockRequest = {
   title: Joi.string().required(),
 };
 
+const UpdateBlockRequest = {
+  id: Joi.string(),
+  type: Joi.string(),
+  content: Joi.string(),
+  slug: Joi.string(),
+  title: Joi.string(),
+};
+
 // Get all the blocks
 router.route({
   method: 'GET',
@@ -98,6 +106,52 @@ router.route({
 
     ctx.status = 201;
     ctx.body = newBlock;
+  },
+});
+
+// Update a block
+router.route({
+  method: 'PUT',
+  path: '/:blockId',
+  validate: {
+    type: 'json',
+    params: {
+      blockId: Joi.string().required(),
+    },
+    body: UpdateBlockRequest,
+    output: {
+      200: {
+        body: BlockResponse,
+      },
+    },
+  },
+  meta: {
+    swagger: {
+      summary: 'Update Block',
+      description: 'Update a block',
+      tags: ['blocks'],
+    },
+  },
+  handler: async (ctx) => {
+    const blockId = ctx.params.blockId.trim();
+
+    const block = (await PromptBlocks.findOne({ id: blockId })).toObject();
+
+    if (!block) {
+      ctx.status = 404;
+      ctx.body = {
+        message: 'Block not found',
+      };
+
+      return;
+    }
+
+    const { title, content, slug, type } = ctx.request.body;
+
+    const updatedBlock = (await PromptBlocks.findOneAndUpdate({ id: blockId }, { title, content, slug, type }, { new: true, runValidators: true })).toObject();
+
+    ctx.status = 200;
+    ctx.body = updatedBlock;
   },
 });
 

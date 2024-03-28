@@ -11,16 +11,18 @@ import {
   InputLabel,
   FormControl,
   SelectChangeEvent,
+  Grid,
 } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import debounce from '../../hooks/debounce';
-import { useCreateBlock, useCheckSlugAvailability } from '../../hooks/blocks';
-import { PROMPT_TYPES, PromptTypes } from '@smart/types';
+import { useCreateBlock, useCheckSlugAvailability, useUpdateBlock } from '../../hooks/blocks';
+import { PROMPT_TYPES, PromptBlock, PromptTypes } from '@smart/types';
 import slugify from 'slugify';
 
 type BlockFormProps = {
   onSubmit: () => void;
+  block: PromptBlock | null;
 };
 
 type SelectOption = {
@@ -37,11 +39,10 @@ interface BlockFormData {
 
 const Textarea = styled(TextareaAutosize)(
   () => `
-        box-sizing: border-box;
-        width: 95%;
+        border: '1px solid black';
+        width: 100%;
         padding: 8px 12px;
         border-radius: 8px;
-        margin: 10px;
       );`
 );
 
@@ -52,16 +53,14 @@ const errorMessages = {
 
 const useStyles = {
   formInputField: {
-    margin: '10px',
-    width: '90%',
+    width: '100%',
   },
   customButton: {
-    marginTop: '10px',
-    marginLeft: '8px',
+    width: '100%',
   },
   formContainer: {
     width: '100%',
-    height: 450,
+    height: 325,
     overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
@@ -93,7 +92,7 @@ const useStyles = {
   },
 };
 
-const BlockForm = ({ onSubmit }: BlockFormProps) => {
+const BlockForm = ({ onSubmit, block }: BlockFormProps) => {
   const {
     register,
     handleSubmit,
@@ -105,6 +104,7 @@ const BlockForm = ({ onSubmit }: BlockFormProps) => {
 
   const { mutateAsync: checkSlugExists, isPending: checkingSlug } = useCheckSlugAvailability();
   const { mutateAsync: createBlock, isPending: creatingBlock } = useCreateBlock();
+  const { mutateAsync: updateBlock, isPending: updatingBlock } = useUpdateBlock();
 
   const [isSlugAvailable, setIsSlugAvailable] = useState<boolean>(false);
   const [typeOptions, setTypeOptions] = useState<SelectOption[]>([]);
@@ -121,7 +121,19 @@ const BlockForm = ({ onSubmit }: BlockFormProps) => {
     );
   }, []);
 
-  const loadingState = checkingSlug || creatingBlock;
+  useEffect(() => {
+    if (block) {
+      setValue('title', block.title);
+      setValue('type', block.type);
+      setValue('content', block.content);
+      setValue('slug', block.slug);
+      setTitle(block.title);
+      setType(block.type);
+      setSlug(block.slug);
+    }
+  }, [block, setValue]);
+
+  const loadingState = checkingSlug || creatingBlock || updatingBlock;
 
   const checkSlugAvailability = async (slug: string) => {
     const { available } = await checkSlugExists(slug);
@@ -137,9 +149,13 @@ const BlockForm = ({ onSubmit }: BlockFormProps) => {
   const checkSlug = useCallback(debounce(checkSlugAvailability, 500), []);
 
   const submitHandler: SubmitHandler<BlockFormData> = async (data) => {
-    console.log('Data', data);
-    await createBlock(data);
-    onSubmit();
+    if (block) {
+      await updateBlock({ ...data, id: block.id });
+      onSubmit();
+    } else {
+      await createBlock(data);
+      onSubmit();
+    }
   };
 
   const convertToSlug = (text: string) => {
@@ -176,59 +192,63 @@ const BlockForm = ({ onSubmit }: BlockFormProps) => {
           </Box>
         )}
 
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
-          <TextField
-            onChange={(event) => handleTitleChange(event.target.value)}
-            value={title}
-            label={'Title'}
-            variant="filled"
-            size="small"
-            sx={useStyles.formInputField}
-            required
-          />
-
-          <TextField
-            onChange={(e) => handleSlugChange(e.target.value)}
-            value={slug}
-            label={'Slug'}
-            variant="filled"
-            size="small"
-            sx={useStyles.formInputField}
-            error={!!errors.slug}
-            helperText={errors.slug ? errorMessages.slugTaken : isSlugAvailable ? errorMessages.slugAvailable : ''}
-            FormHelperTextProps={{
-              sx: isSlugAvailable ? useStyles.greenText : useStyles.redText,
-            }}
-            required
-          />
-
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="type-label" sx={{ color: 'black' }}>
-              Type
-            </InputLabel>
-            <Select
-              id="type"
-              labelId="type-label"
-              label="Type"
-              sx={{ color: 'black', border: '1px solid black' }}
-              value={type}
-              onChange={handleTypeChange}
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              onChange={(event) => handleTitleChange(event.target.value)}
+              value={title}
+              label={'Title'}
+              variant="filled"
+              size="small"
+              sx={useStyles.formInputField}
               required
-            >
-              {typeOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <Textarea {...register('content')} placeholder="Enter Content" minRows={5} />
-        </Box>
-
-        <Button type="submit" variant="contained" disabled={loadingState || !!Object.keys(errors).length} sx={useStyles.customButton}>
-          Submit
-        </Button>
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              onChange={(e) => handleSlugChange(e.target.value)}
+              value={slug}
+              label={'Slug'}
+              variant="filled"
+              size="small"
+              sx={useStyles.formInputField}
+              error={!!errors.slug}
+              helperText={errors.slug ? errorMessages.slugTaken : isSlugAvailable ? errorMessages.slugAvailable : ''}
+              FormHelperTextProps={{
+                sx: isSlugAvailable ? useStyles.greenText : useStyles.redText,
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl sx={{ width: '100%' }} variant="filled">
+              <InputLabel id="type-label">Type</InputLabel>
+              <Select
+                sx={{ color: 'black', border: '1px solid black' }}
+                id="type"
+                labelId="type-label"
+                label="Type"
+                value={type}
+                onChange={handleTypeChange}
+                required
+              >
+                {typeOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Textarea {...register('content')} placeholder="Enter Content" minRows={5} sx={{ mt: 1, width: '95%' }} />
+          </Grid>
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" disabled={loadingState || !!Object.keys(errors).length} sx={useStyles.customButton}>
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
       </Container>
     </form>
   );

@@ -26,6 +26,14 @@ export const useCreateBlock = () => {
   return mutation;
 };
 
+export const useUpdateBlock = () => {
+  const mutation = useMutation({
+    mutationFn: (item: PromptBlock) => client.put(`/blocks/${item.id}`, item).then((res) => res.data),
+  });
+
+  return mutation;
+};
+
 export const useCheckSlugAvailability = () => {
   return useMutation({
     mutationFn: (slug: string) => {

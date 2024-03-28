@@ -1,14 +1,12 @@
 import { Close } from '@mui/icons-material';
 import { Modal, Box, IconButton, Typography } from '@mui/material';
-import React from 'react';
-import BlockForm from './BlockForm';
 import { PromptBlock } from '@smart/types';
+import React from 'react';
 
-type BlockModalProps = {
+type ReadMoreModalProps = {
   open: boolean;
+  block: PromptBlock;
   onClose: () => void;
-  onSubmit: () => void;
-  block: PromptBlock | null;
 };
 
 const useStyles = {
@@ -17,29 +15,25 @@ const useStyles = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    height: '50%',
+    height: 500,
     width: '50%',
     backgroundColor: 'white',
     border: '2px solid #000',
     boxShadow: 12,
     borderRadius: 10,
     p: 4,
+    overflowY: 'auto',
   },
   closeButtonContainer: {
-    // New styles for positioning the close button
     position: 'absolute',
     right: 10,
     top: 10,
   },
 };
 
-const BlockModal = ({ open, onClose, onSubmit, block }: BlockModalProps) => {
-  const handleSubmit = () => {
-    onSubmit();
-  };
-
+const ReadMoreModal = ({ open, block, onClose }: ReadMoreModalProps) => {
   return (
-    <Modal open={open} onClose={onClose} aria-labelledby="block-modal-title" aria-describedby="block-modal-description">
+    <Modal open={open} onClose={onClose} aria-labelledby="readMore-modal-title" aria-describedby="readMore-modal-description">
       <Box sx={useStyles.modal}>
         <Box sx={useStyles.closeButtonContainer}>
           <IconButton
@@ -52,15 +46,17 @@ const BlockModal = ({ open, onClose, onSubmit, block }: BlockModalProps) => {
             <Close color="secondary" />
           </IconButton>
         </Box>
-        <Box>
-          <Typography variant="h4" style={{ textAlign: 'center' }}>
-            New Block
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography variant="h4">
+            {block.slug} | {block.title}
           </Typography>
-          <BlockForm onSubmit={handleSubmit} block={block} />
+          <Typography variant="body1" style={{ textAlign: 'center' }}>
+            {block.content}
+          </Typography>
         </Box>
       </Box>
     </Modal>
   );
 };
 
-export default BlockModal;
+export default ReadMoreModal;
