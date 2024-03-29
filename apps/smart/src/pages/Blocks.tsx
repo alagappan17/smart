@@ -1,13 +1,13 @@
 import { Button, Container, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 import { PromptBlock } from '@smart/types';
 import { ChangeEventHandler, useEffect, useState } from 'react';
-import { useGetBlocks } from '../hooks/blocks';
+import { useDeleteBlock, useGetBlocks } from '../hooks/blocks';
 import BlockItemTableRow from '../components/blocks/BlockItemTableRow';
-import { toast } from 'react-toastify';
 import { Add } from '@mui/icons-material';
 import BlockModal from '../components/blocks/BlockModal';
 import ReadMoreModal from '../components/blocks/ReadMoreModal';
-import { set } from 'mongoose';
+import { toast } from 'react-toastify';
+import DeleteDialog from '../components/shared/DeleteDialog';
 
 const useStyles = {
   title: {
@@ -32,10 +32,12 @@ const Blocks = () => {
 
   const [blocks, setBlocks] = useState<PromptBlock[]>([]);
   const [expanded, setExpanded] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
   const [readMoreExpanded, setReadMoreExpanded] = useState(false);
   const [selectedBlock, setSelectedBlock] = useState<PromptBlock | null>(null);
 
   const { data, refetch } = useGetBlocks(page * rowsPerPage, rowsPerPage);
+  const { mutateAsync: deleteBlock } = useDeleteBlock();
 
   const handlePageChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, page: number) => {
     setPage(page);
@@ -53,7 +55,6 @@ const Blocks = () => {
   }, [data]);
 
   const onReadMore = (block: PromptBlock) => {
-    console.log('Blocks', block);
     setReadMoreExpanded(true);
     setSelectedBlock(block);
   };
@@ -81,6 +82,23 @@ const Blocks = () => {
     setSelectedBlock(block);
   };
 
+  const onDeleteClick = (block: PromptBlock) => {
+    setDeleteDialog(true);
+    setSelectedBlock(block);
+  };
+
+  const onDeleteConfirm = async () => {
+    if (selectedBlock)
+      try {
+        await deleteBlock(selectedBlock);
+        toast.success('Block Deleted Successfully');
+        setDeleteDialog(false);
+        refetch();
+      } catch (error) {
+        toast.error('Error deleting block');
+      }
+  };
+
   return (
     <Container>
       <Typography variant="h2" sx={useStyles.title}>
@@ -106,7 +124,7 @@ const Blocks = () => {
           </TableHead>
           <TableBody>
             {blocks.map((block: PromptBlock) => (
-              <BlockItemTableRow key={block.id} block={block} onReadMore={onReadMore} editClick={onEditClick} />
+              <BlockItemTableRow key={block.id} block={block} onReadMore={onReadMore} editClick={onEditClick} deleteClick={onDeleteClick} />
             ))}
           </TableBody>
           <TableFooter>
@@ -126,6 +144,7 @@ const Blocks = () => {
         </Table>
       </TableContainer>
       <BlockModal open={expanded} block={selectedBlock} onClose={onFormClose} onSubmit={onFormSubmit} />
+      <DeleteDialog content="Are you sure?" title="Delete Block" open={deleteDialog} onClose={() => setDeleteDialog(false)} onConfirm={onDeleteConfirm} />
       {selectedBlock && <ReadMoreModal open={readMoreExpanded} block={selectedBlock} onClose={onReadMoreClose} />}
     </Container>
   );

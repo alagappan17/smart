@@ -1,20 +1,25 @@
 import { PromptBlock } from '@smart/types';
 import { TableRow, TableCell, Typography } from '@mui/material';
-import { EditOutlined } from '@mui/icons-material';
+import { DeleteOutlined, EditOutlined } from '@mui/icons-material';
 
 type LessonItemTableRowProps = {
   block: PromptBlock;
   onReadMore: (block: PromptBlock) => void;
   editClick: (block: PromptBlock) => void;
+  deleteClick: (block: PromptBlock) => void;
 };
 
-const BlockItemTableRow = ({ block, onReadMore, editClick }: LessonItemTableRowProps) => {
+const BlockItemTableRow = ({ block, onReadMore, editClick, deleteClick }: LessonItemTableRowProps) => {
   const handleReadMore = () => {
     onReadMore(block);
   };
 
   const editClickHandler = () => {
     editClick(block);
+  };
+
+  const deleteClickHandler = () => {
+    deleteClick(block);
   };
 
   return (
@@ -28,6 +33,7 @@ const BlockItemTableRow = ({ block, onReadMore, editClick }: LessonItemTableRowP
       </TableCell>
       <TableCell sx={{ textAlign: 'center', color: '#000000' }}>
         <EditOutlined onClick={editClickHandler} />
+        <DeleteOutlined onClick={deleteClickHandler} />
       </TableCell>
     </TableRow>
   );

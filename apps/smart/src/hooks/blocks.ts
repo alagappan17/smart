@@ -34,6 +34,14 @@ export const useUpdateBlock = () => {
   return mutation;
 };
 
+export const useDeleteBlock = () => {
+  const mutation = useMutation({
+    mutationFn: (item: PromptBlock) => client.delete(`/blocks/${item.id}`).then((res) => res.data),
+  });
+
+  return mutation;
+};
+
 export const useCheckSlugAvailability = () => {
   return useMutation({
     mutationFn: (slug: string) => {

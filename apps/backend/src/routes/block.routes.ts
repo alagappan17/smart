@@ -155,6 +155,45 @@ router.route({
   },
 });
 
+// Delete a block
+router.route({
+  method: 'DELETE',
+  path: '/:blockId',
+  validate: {
+    params: {
+      blockId: Joi.string().required(),
+    },
+  },
+  meta: {
+    swagger: {
+      summary: 'Delete Block',
+      description: 'Delete a block',
+      tags: ['blocks'],
+    },
+  },
+  handler: async (ctx) => {
+    const blockId = ctx.params.blockId.trim();
+
+    const block = await PromptBlocks.findOne({ id: blockId });
+
+    if (!block) {
+      ctx.status = 404;
+      ctx.body = {
+        message: 'Block not found',
+      };
+
+      return;
+    }
+
+    const result = await PromptBlocks.deleteOne({ id: blockId });
+
+    if (result) {
+      ctx.status = 200;
+      ctx.body = { message: 'Block deleted' };
+    }
+  },
+});
+
 // Check if a slug is available
 router.route({
   method: 'GET',
