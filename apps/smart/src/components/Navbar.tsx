@@ -59,7 +59,7 @@ export const Navbar = ({ navBarLinks }: NavbarProps) => {
     <AppBar position="sticky" sx={useStyles.navBar}>
       <Toolbar>
         <Box onClick={() => navigate('/')} sx={useStyles.navLogo}>
-          <img src={'../../../public/smart_logo_black.png'} alt="logo" loading="lazy" height={50} />
+          <img src={'./smart_logo_black.png'} alt="logo" loading="lazy" height={50} />
           {/* <Typography fontSize={36}>smart</Typography> */}
         </Box>
         <Box sx={useStyles.itemsContainer}>
