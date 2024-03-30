@@ -34,7 +34,7 @@ yarn-error.log
 testem.log
 /typings
 
-# env
+# ENV
 .env.local
 
 # System Files
