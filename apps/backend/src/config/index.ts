@@ -8,6 +8,14 @@ const config = {
     username: process.env.MONGO_USERNAME || '',
     password: process.env.MONGO_PASSWORD || '',
   },
+  llm: {
+    openAiApiKey: process.env.OPEN_AI_API_KEY || '',
+    googleApiKey: process.env.GOOGLE_API_KEY || '',
+    cohereApiKey: process.env.COHERE_API_KEY || '',
+    ollama: {
+      baseUrl: process.env.OLLAMA_BASE_URL || 'http://localhost:11434',
+    },
+  },
   log: {
     level: process.env.LOG_LEVEL || 'debug',
   },
