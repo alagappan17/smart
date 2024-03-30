@@ -27,7 +27,7 @@ const BlockItemTableRow = ({ block, onReadMore, editClick, deleteClick }: Lesson
       <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.id}</TableCell>
       <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.slug}</TableCell>
       <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.title}</TableCell>
-      <TableCell sx={{ textAlign: 'center', color: '#000000' }}>
+      <TableCell sx={{ textAlign: 'center', color: '#000000', whiteSpace: 'pre-wrap' }}>
         {block.content.slice(0, 150)} {block.content.length > 150 && '....'}
         {block.content.length > 150 && <Typography onClick={handleReadMore}>Read More</Typography>}
       </TableCell>

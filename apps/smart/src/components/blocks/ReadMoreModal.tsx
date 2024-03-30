@@ -23,6 +23,7 @@ const useStyles = {
     borderRadius: 10,
     p: 4,
     overflowY: 'auto',
+    whiteSpace: 'pre-wrap',
   },
   closeButtonContainer: {
     position: 'absolute',
@@ -50,9 +51,7 @@ const ReadMoreModal = ({ open, block, onClose }: ReadMoreModalProps) => {
           <Typography variant="h4">
             {block.slug} | {block.title}
           </Typography>
-          <Typography variant="body1" style={{ textAlign: 'center' }}>
-            {block.content}
-          </Typography>
+          <Typography variant="body1">{block.content}</Typography>
         </Box>
       </Box>
     </Modal>

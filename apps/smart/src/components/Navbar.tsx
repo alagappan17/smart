@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export type NavabarLink = {
@@ -18,6 +18,9 @@ const useStyles = {
     flexGrow: 1,
     fontSize: '2rem',
     fontWeight: 400,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   itemsContainer: {
     gap: 4,
@@ -56,7 +59,8 @@ export const Navbar = ({ navBarLinks }: NavbarProps) => {
     <AppBar position="sticky" sx={useStyles.navBar}>
       <Toolbar>
         <Box onClick={() => navigate('/')} sx={useStyles.navLogo}>
-          smart
+          <img src={'../../../public/smart_logo_black.png'} alt="logo" loading="lazy" height={50} />
+          {/* <Typography fontSize={36}>smart</Typography> */}
         </Box>
         <Box sx={useStyles.itemsContainer}>
           {navBarLinks.map(({ url, label }: NavabarLink) => {
