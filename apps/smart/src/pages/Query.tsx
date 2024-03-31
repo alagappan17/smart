@@ -1,17 +1,4 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextareaAutosize,
-  Typography,
-  styled,
-} from '@mui/material';
+import { Box, Button, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select, TextareaAutosize, Typography, styled } from '@mui/material';
 import { formStyles, smartStyles } from '../theme/styles';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLLM } from '../hooks/llms';
@@ -33,7 +20,7 @@ interface PromptData {
   model: string;
 }
 
-const MockPlayground = () => {
+const Query = () => {
   const { register, handleSubmit } = useForm<PromptData>();
   const { sendToLLM, isPending } = useLLM();
 
@@ -91,4 +78,4 @@ const MockPlayground = () => {
   );
 };
 
-export default MockPlayground;
+export default Query;

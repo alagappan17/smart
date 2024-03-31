@@ -1,5 +1,5 @@
-export type OllamaModels = 'llama2' | 'gemma';
-export const OLLAMA_MODELS = ['llama2', 'gemma'];
+export type OllamaModels = 'llama2' | 'gemma' | 'mistral';
+export const OLLAMA_MODELS = ['llama2', 'gemma', 'mistral'];
 
 export type OpenAiModels = 'gpt-3.5-turbo-instruct';
 export const OPENAI_MODELS = ['gpt-3.5-turbo-instruct'];
@@ -21,4 +21,5 @@ export const LLM_MODELS: LLMModel[] = [
   { name: 'gpt-3.5-turbo-instruct', host: 'openai' },
   { name: 'cohere', host: 'cohere' },
   { name: 'gemini-pro', host: 'google' },
+  { name: 'mistral', host: 'ollama' },
 ];

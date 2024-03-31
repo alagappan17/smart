@@ -39,6 +39,10 @@ const NAVBARLINKS: NavabarLink[] = [
     label: 'playground',
   },
   {
+    url: '/query',
+    label: 'query',
+  },
+  {
     url: '/blocks',
     label: 'blocks',
   },
@@ -60,12 +64,11 @@ export const Navbar = ({ navBarLinks }: NavbarProps) => {
       <Toolbar>
         <Box onClick={() => navigate('/')} sx={useStyles.navLogo}>
           <img src={'./smart_logo_black.png'} alt="logo" loading="lazy" height={50} />
-          {/* <Typography fontSize={36}>smart</Typography> */}
         </Box>
         <Box sx={useStyles.itemsContainer}>
-          {navBarLinks.map(({ url, label }: NavabarLink) => {
+          {navBarLinks.map(({ url, label }: NavabarLink, index: number) => {
             return (
-              <Box sx={useStyles.navItem} onClick={() => navigate(url)}>
+              <Box sx={useStyles.navItem} onClick={() => navigate(url)} key={index}>
                 {label}
               </Box>
             );
