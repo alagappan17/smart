@@ -7,9 +7,11 @@ import config from './config';
 
 import healthCheckRoutes from './routes/health.routes';
 import blockRoutes from './routes/block.routes';
+import storageRoutes from './routes/storage.routes';
+
 import openAiRoutes from './routes/openai.routes';
-import geminiRoutes from './routes/gemini.routes';
 import cohereRoutes from './routes/cohere.routes';
+import googleRoutes from './routes/google.routes';
 import ollamaRoutes from './routes/ollama.routes';
 
 import Debug from 'debug';
@@ -38,9 +40,10 @@ app.use(async (ctx, next) => {
 // Add routes here
 app.use(healthCheckRoutes.middleware());
 app.use(mount('/blocks', blockRoutes.middleware()));
+app.use(mount('/storage', storageRoutes.middleware()));
 app.use(mount('/llm/openai', openAiRoutes.middleware()));
-app.use(mount('/llm/gemini', geminiRoutes.middleware()));
 app.use(mount('/llm/cohere', cohereRoutes.middleware()));
+app.use(mount('/llm/google', googleRoutes.middleware()));
 app.use(mount('/llm/ollama', ollamaRoutes.middleware()));
 
 async function startup() {

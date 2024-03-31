@@ -23,13 +23,10 @@ const AppProviders = () => {
         <ToastContainer
           position="top-right"
           autoClose={4000}
-          hideProgressBar
           newestOnTop={false}
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
-          draggable
-          pauseOnHover
           theme="dark"
           transition={Bounce}
           toastStyle={{ backgroundColor: '#fff', color: '#000', border: '1px solid black' }}

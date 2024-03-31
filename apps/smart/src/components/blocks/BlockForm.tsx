@@ -19,6 +19,7 @@ import debounce from '../../hooks/debounce';
 import { useCreateBlock, useCheckSlugAvailability, useUpdateBlock } from '../../hooks/blocks';
 import { PROMPT_TYPES, PromptBlock, PromptTypes } from '@smart/types';
 import slugify from 'slugify';
+import { formStyles } from '../../theme/styles';
 
 type BlockFormProps = {
   onSubmit: () => void;
@@ -49,47 +50,6 @@ const Textarea = styled(TextareaAutosize)(
 const errorMessages = {
   slugTaken: 'Slug is already taken',
   slugAvailable: 'Slug is available',
-};
-
-const useStyles = {
-  formInputField: {
-    width: '100%',
-  },
-  customButton: {
-    width: '100%',
-  },
-  formContainer: {
-    width: '100%',
-    height: 325,
-    overflowY: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: 5,
-    gap: 3,
-  },
-  loaderBox: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  greenText: {
-    color: 'green',
-    fontSize: '12px',
-    marginTop: '2px',
-    marginLeft: '10px',
-  },
-  redText: {
-    color: 'red',
-    fontSize: '12px',
-    marginTop: '2px',
-    marginLeft: '10px',
-  },
 };
 
 const BlockForm = ({ onSubmit, block }: BlockFormProps) => {
@@ -185,9 +145,9 @@ const BlockForm = ({ onSubmit, block }: BlockFormProps) => {
 
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
-      <Container sx={useStyles.formContainer}>
+      <Container sx={formStyles.formContainer}>
         {loadingState && (
-          <Box sx={useStyles.loaderBox}>
+          <Box sx={formStyles.loaderBox}>
             <CircularProgress variant="indeterminate" />
           </Box>
         )}
@@ -200,7 +160,7 @@ const BlockForm = ({ onSubmit, block }: BlockFormProps) => {
               label={'Title'}
               variant="filled"
               size="small"
-              sx={useStyles.formInputField}
+              sx={formStyles.formInputField}
               required
             />
           </Grid>
@@ -211,11 +171,11 @@ const BlockForm = ({ onSubmit, block }: BlockFormProps) => {
               label={'Slug'}
               variant="filled"
               size="small"
-              sx={useStyles.formInputField}
+              sx={formStyles.formInputField}
               error={!!errors.slug}
               helperText={errors.slug ? errorMessages.slugTaken : isSlugAvailable ? errorMessages.slugAvailable : ''}
               FormHelperTextProps={{
-                sx: isSlugAvailable ? useStyles.greenText : useStyles.redText,
+                sx: isSlugAvailable ? formStyles.greenText : formStyles.redText,
               }}
               required
             />
@@ -244,7 +204,7 @@ const BlockForm = ({ onSubmit, block }: BlockFormProps) => {
             <Textarea {...register('content')} placeholder="Enter Content" minRows={5} sx={{ mt: 1, width: '95%' }} />
           </Grid>
           <Grid item xs={12}>
-            <Button type="submit" variant="contained" disabled={loadingState || !!Object.keys(errors).length} sx={useStyles.customButton}>
+            <Button type="submit" variant="contained" disabled={loadingState || !!Object.keys(errors).length} sx={formStyles.customButton}>
               Submit
             </Button>
           </Grid>

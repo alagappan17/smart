@@ -8,22 +8,9 @@ import BlockModal from '../components/blocks/BlockModal';
 import ReadMoreModal from '../components/blocks/ReadMoreModal';
 import { toast } from 'react-toastify';
 import DeleteDialog from '../components/shared/DeleteDialog';
+import { smartStyles } from '../theme/styles';
 
-const useStyles = {
-  title: {
-    fontWeight: 300,
-    marginBottom: 2,
-    textAlign: 'center',
-  },
-  tableHeader: {
-    fontSize: '1.1rem',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-    color: '#000000',
-  },
-};
-
-const TABLEHEADERS = ['ID', 'Slug', 'Title', 'Content', 'Actions'];
+const TABLEHEADERS = ['Created', 'Slug', 'Title', 'Content', 'Actions'];
 
 const Blocks = () => {
   const [page, setPage] = useState(0);
@@ -70,6 +57,7 @@ const Blocks = () => {
 
   const onReadMoreClose = () => {
     setReadMoreExpanded(false);
+    setSelectedBlock(null);
   };
 
   const onFormSubmit = () => {
@@ -101,7 +89,7 @@ const Blocks = () => {
 
   return (
     <Container>
-      <Typography variant="h2" sx={useStyles.title}>
+      <Typography variant="h2" sx={smartStyles.title}>
         blocks
       </Typography>
 
@@ -115,7 +103,7 @@ const Blocks = () => {
             <TableRow>
               {TABLEHEADERS.map((header: string) => {
                 return (
-                  <TableCell width={1} sx={useStyles.tableHeader} key={header}>
+                  <TableCell width={1} sx={smartStyles.tableHeader} key={header}>
                     {header}
                   </TableCell>
                 );
@@ -145,7 +133,14 @@ const Blocks = () => {
       </TableContainer>
       <BlockModal open={expanded} block={selectedBlock} onClose={onFormClose} onSubmit={onFormSubmit} />
       <DeleteDialog content="Are you sure?" title="Delete Block" open={deleteDialog} onClose={() => setDeleteDialog(false)} onConfirm={onDeleteConfirm} />
-      {selectedBlock && <ReadMoreModal open={readMoreExpanded} block={selectedBlock} onClose={onReadMoreClose} />}
+      {selectedBlock && (
+        <ReadMoreModal
+          open={readMoreExpanded}
+          heading={`${selectedBlock.slug} | ${selectedBlock.title}`}
+          content={selectedBlock.content}
+          onClose={onReadMoreClose}
+        />
+      )}
     </Container>
   );
 };

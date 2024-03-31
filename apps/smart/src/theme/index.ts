@@ -2,7 +2,6 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
     primary: {
       main: '#ffffff',
       contrastText: '#000000', // Black for text on top of white
@@ -10,9 +9,6 @@ const theme = createTheme({
     secondary: {
       main: '#000000',
       contrastText: '#ffffff', // White for text on top of black
-    },
-    background: {
-      default: '#121212', // Slightly off-black background for contrast
     },
   },
   typography: {
@@ -64,10 +60,10 @@ const theme = createTheme({
     MuiTextField: {
       defaultProps: {
         InputLabelProps: {
-          style: { color: '#000000' }, // Black for Input Label
+          style: { color: 'black' }, // Black for Input Label
         },
         InputProps: {
-          style: { color: '#000000', border: '1px solid black' }, // Black for input text
+          style: { color: 'black', border: '1px solid black' }, // Black for input text
         },
       },
     },
