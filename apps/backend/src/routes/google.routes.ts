@@ -1,12 +1,12 @@
 import KoaRouter from 'koa-joi-router';
-import { geminiService } from '../services/gemini';
+import { googleService } from '../services/google';
 
 const Joi = KoaRouter.Joi;
 const router = KoaRouter();
 
-// Get a response from Gemini for a prompt
+// Get a response from Google for a prompt
 router.route({
-  method: 'GET',
+  method: 'POST',
   path: '/',
   validate: {
     type: 'json',
@@ -14,14 +14,14 @@ router.route({
   },
   meta: {
     swagger: {
-      summary: 'Get a response from Gemini for a prompt',
-      description: 'Get a response from Gemini for a prompt',
-      tags: ['gemini'],
+      summary: 'Get a response from Google for a prompt',
+      description: 'Get a response from Google for a prompt',
+      tags: ['google'],
     },
   },
   handler: async (ctx) => {
     const prompt = ctx.request.body.prompt;
-    const response = await geminiService.generateResponse(prompt);
+    const response = await googleService.generateResponse(prompt);
 
     ctx.body = {
       prompt,

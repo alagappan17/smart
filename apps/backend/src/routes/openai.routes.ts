@@ -6,7 +6,7 @@ const router = KoaRouter();
 
 // Get a response from OpenAI for a prompt
 router.route({
-  method: 'GET',
+  method: 'POST',
   path: '/',
   validate: {
     type: 'json',

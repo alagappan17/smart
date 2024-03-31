@@ -6,7 +6,7 @@ const router = KoaRouter();
 
 // Get a response from Ollama for a prompt
 router.route({
-  method: 'GET',
+  method: 'POST',
   path: '/',
   validate: {
     type: 'json',
@@ -24,9 +24,10 @@ router.route({
   },
   handler: async (ctx) => {
     const model = ctx.query.model;
+    const prompt = ctx.request.body.prompt;
+
     const ollamaService = new OllamaService(model);
 
-    const prompt = ctx.request.body.prompt;
     const response = await ollamaService.generateResponse(prompt);
 
     ctx.body = {

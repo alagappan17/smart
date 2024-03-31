@@ -34,7 +34,4 @@ const ModelResultSchema = new Schema<ModelResult>(
   }
 );
 
-export const ModelResults = mongoose.model<ModelResult & Document>(
-  'ModelResult',
-  ModelResultSchema
-);
+export const ModelResults = mongoose.model<ModelResult & Document>('ModelResult', ModelResultSchema);

@@ -1,7 +1,7 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import config from '../config';
 
-class GeminiService {
+class GoogleService {
   private model: ChatGoogleGenerativeAI;
 
   constructor() {
@@ -18,4 +18,4 @@ class GeminiService {
   }
 }
 
-export const geminiService = new GeminiService();
+export const googleService = new GoogleService();
