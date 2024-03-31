@@ -1,6 +1,6 @@
 import KoaRouter from 'koa-joi-router';
 import { ModelResults } from '../lib/models/Result';
-import { QueryOptions } from 'mongoose';
+import { QueryOptions, SortOrder } from 'mongoose';
 
 const Joi = KoaRouter.Joi;
 const router = KoaRouter();
@@ -11,6 +11,7 @@ const StorageResult = {
   model: Joi.string().required(),
   response: Joi.string().required(),
   responseTime: Joi.number(),
+  created: Joi.date().required(),
 };
 
 const CreateStorageResult = {
@@ -25,10 +26,10 @@ const StorageListResults = {
   results: Joi.array().items(Joi.object(StorageResult)),
 };
 
-// Get all the blocks
+// Get all the results
 router.route({
   method: 'GET',
-  path: '/',
+  path: '/results',
   validate: {
     query: {
       limit: Joi.number(),
@@ -57,6 +58,8 @@ router.route({
       sort: { created: -1 },
     };
 
+    console.log('Skip and limit', skip, limit);
+
     const response = await ModelResults.find({}, null, options).exec();
     const results = response.map((block) => block.toObject());
 
@@ -70,7 +73,7 @@ router.route({
   },
 });
 
-// Create a new block
+// Create a new result
 router.route({
   method: 'POST',
   path: '/result',
@@ -100,10 +103,10 @@ router.route({
   },
 });
 
-// Delete a block
+// Delete a result
 router.route({
   method: 'DELETE',
-  path: '/:resultId',
+  path: '/results/:resultId',
   validate: {
     params: {
       resultId: Joi.string().required(),

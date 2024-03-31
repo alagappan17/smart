@@ -15,6 +15,7 @@ const PromptBlockSchema = new Schema<PromptBlock>(
     slug: { type: String, required: true },
     type: { type: String, required: true },
     content: { type: String, required: true },
+    created: { type: Date, default: Date.now },
   },
   {
     toObject: {
@@ -34,7 +35,4 @@ const PromptBlockSchema = new Schema<PromptBlock>(
   }
 );
 
-export const PromptBlocks = mongoose.model<PromptBlock & Document>(
-  'PromptBlock',
-  PromptBlockSchema
-);
+export const PromptBlocks = mongoose.model<PromptBlock & Document>('PromptBlock', PromptBlockSchema);

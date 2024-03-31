@@ -8,7 +8,7 @@ export const smartStyles = {
     fontSize: '1.1rem',
     textTransform: 'uppercase',
     textAlign: 'center',
-    color: '#000000',
+    color: 'black',
   },
 };
 export const modalStyles = {

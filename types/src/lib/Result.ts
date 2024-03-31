@@ -4,4 +4,5 @@ export type ModelResult = {
   prompt: string;
   response: string;
   responseTime: number;
+  created: Date;
 };

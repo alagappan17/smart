@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import DeleteDialog from '../components/shared/DeleteDialog';
 import { smartStyles } from '../theme/styles';
 
-const TABLEHEADERS = ['ID', 'Slug', 'Title', 'Content', 'Actions'];
+const TABLEHEADERS = ['Created', 'Slug', 'Title', 'Content', 'Actions'];
 
 const Blocks = () => {
   const [page, setPage] = useState(0);
@@ -57,6 +57,7 @@ const Blocks = () => {
 
   const onReadMoreClose = () => {
     setReadMoreExpanded(false);
+    setSelectedBlock(null);
   };
 
   const onFormSubmit = () => {
@@ -132,7 +133,14 @@ const Blocks = () => {
       </TableContainer>
       <BlockModal open={expanded} block={selectedBlock} onClose={onFormClose} onSubmit={onFormSubmit} />
       <DeleteDialog content="Are you sure?" title="Delete Block" open={deleteDialog} onClose={() => setDeleteDialog(false)} onConfirm={onDeleteConfirm} />
-      {selectedBlock && <ReadMoreModal open={readMoreExpanded} block={selectedBlock} onClose={onReadMoreClose} />}
+      {selectedBlock && (
+        <ReadMoreModal
+          open={readMoreExpanded}
+          heading={`${selectedBlock.slug} | ${selectedBlock.title}`}
+          content={selectedBlock.content}
+          onClose={onReadMoreClose}
+        />
+      )}
     </Container>
   );
 };

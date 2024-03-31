@@ -15,6 +15,7 @@ const ModelResultSchema = new Schema<ModelResult>(
     prompt: { type: String, required: true },
     response: { type: String, required: true },
     responseTime: { type: Number },
+    created: { type: Date, default: Date.now },
   },
   {
     toObject: {

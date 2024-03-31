@@ -11,6 +11,7 @@ const BlockResponse = {
   content: Joi.string().required(),
   slug: Joi.string().required(),
   title: Joi.string().required(),
+  created: Joi.date().required(),
 };
 
 const BlockListResponse = {

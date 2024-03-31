@@ -24,7 +24,7 @@ const BlockItemTableRow = ({ block, onReadMore, editClick, deleteClick }: Lesson
 
   return (
     <TableRow hover={true} style={{ cursor: 'pointer' }}>
-      <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.id}</TableCell>
+      <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{new Date(block.created).toString()}</TableCell>
       <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.slug}</TableCell>
       <TableCell sx={{ textAlign: 'center', color: '#000000' }}>{block.title}</TableCell>
       <TableCell sx={{ textAlign: 'center', color: '#000000', whiteSpace: 'pre-wrap' }}>

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { axios } from '../query';
-import { PromptBlock, CreatePromptBlockDTO } from '@smart/types';
+import { PromptBlock, CreatePromptBlockDTO, UpdatePromptBlockDTO } from '@smart/types';
 
 const client = axios.client;
 
@@ -28,7 +28,7 @@ export const useCreateBlock = () => {
 
 export const useUpdateBlock = () => {
   const mutation = useMutation({
-    mutationFn: (item: PromptBlock) => client.put(`/blocks/${item.id}`, item).then((res) => res.data),
+    mutationFn: (item: UpdatePromptBlockDTO) => client.put(`/blocks/${item.id}`, item).then((res) => res.data),
   });
 
   return mutation;
