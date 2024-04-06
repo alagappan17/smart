@@ -23,7 +23,7 @@ import { formStyles } from '../../theme/styles';
 
 type BlockFormProps = {
   onSubmit: () => void;
-  block: PromptBlock | null;
+  block?: PromptBlock | null;
 };
 
 type SelectOption = {
@@ -119,7 +119,12 @@ const BlockForm = ({ onSubmit, block }: BlockFormProps) => {
   };
 
   const convertToSlug = (text: string) => {
-    return slugify(text, { lower: true, strict: false, replacement: ' ', remove: /[\s#?%^*&$@:]+/g, trim: true });
+    return slugify(text, {
+      lower: true, // Convert the string to lowercase
+      strict: false, // Allow characters outside alphanumeric, underscore, and hyphen
+      remove: /[#?%^*&$@:]+/g, // Remove other unwanted characters
+      trim: true, // Trim leading and trailing whitespace
+    });
   };
 
   const handleTypeChange = (event: SelectChangeEvent) => {

@@ -8,7 +8,7 @@ import BlockModal from '../components/blocks/BlockModal';
 import ReadMoreModal from '../components/blocks/ReadMoreModal';
 import { toast } from 'react-toastify';
 import DeleteDialog from '../components/shared/DeleteDialog';
-import { smartStyles } from '../theme/styles';
+import { textStyles } from '../theme/styles';
 
 const TABLEHEADERS = ['Created', 'Slug', 'Title', 'Content', 'Actions'];
 
@@ -89,7 +89,7 @@ const Blocks = () => {
 
   return (
     <Container>
-      <Typography variant="h2" sx={smartStyles.title}>
+      <Typography variant="h2" sx={textStyles.title}>
         blocks
       </Typography>
 
@@ -103,7 +103,7 @@ const Blocks = () => {
             <TableRow>
               {TABLEHEADERS.map((header: string) => {
                 return (
-                  <TableCell width={1} sx={smartStyles.tableHeader} key={header}>
+                  <TableCell width={1} sx={textStyles.tableHeader} key={header}>
                     {header}
                   </TableCell>
                 );
