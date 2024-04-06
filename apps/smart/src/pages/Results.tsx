@@ -1,5 +1,5 @@
 import { Container, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
-import { smartStyles } from '../theme/styles';
+import { textStyles } from '../theme/styles';
 import { ModelResult } from '@smart/types';
 import { useState, ChangeEventHandler, useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -66,7 +66,7 @@ const Results = () => {
 
   return (
     <Container>
-      <Typography variant="h2" sx={smartStyles.title}>
+      <Typography variant="h2" sx={textStyles.title}>
         results
       </Typography>
 
@@ -76,7 +76,7 @@ const Results = () => {
             <TableRow>
               {TABLEHEADERS.map((header: string) => {
                 return (
-                  <TableCell width={1} sx={smartStyles.tableHeader} key={header}>
+                  <TableCell width={1} sx={textStyles.tableHeader} key={header}>
                     {header}
                   </TableCell>
                 );

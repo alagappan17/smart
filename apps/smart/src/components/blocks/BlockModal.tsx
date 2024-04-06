@@ -9,7 +9,7 @@ type BlockModalProps = {
   open: boolean;
   onClose: () => void;
   onSubmit: () => void;
-  block: PromptBlock | null;
+  block?: PromptBlock | null;
 };
 
 const BlockModal = ({ open, onClose, onSubmit, block }: BlockModalProps) => {

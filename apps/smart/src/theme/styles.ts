@@ -1,4 +1,4 @@
-export const smartStyles = {
+export const textStyles = {
   title: {
     fontWeight: 300,
     marginBottom: 2,
@@ -71,4 +71,21 @@ export const formStyles = {
     marginTop: '2px',
     marginLeft: '10px',
   },
+};
+
+export const blockStyles = {
+  blocksList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 1,
+    textAlign: 'left',
+    height: '74vh',
+    overflowY: 'auto',
+  },
+  block: {
+    border: '1px solid black',
+    padding: 2,
+    borderRadius: 4,
+  },
+  iconButton: { borderRadius: 3, cursor: 'pointer', backgroundColor: 'white' },
 };

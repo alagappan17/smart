@@ -1,5 +1,5 @@
 import { Autocomplete, Box, Button, Checkbox, CircularProgress, Container, TextField, TextareaAutosize, Typography, styled } from '@mui/material';
-import { formStyles, smartStyles } from '../theme/styles';
+import { formStyles, textStyles } from '../theme/styles';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLLM } from '../hooks/llms';
 import { useEffect, useState } from 'react';
@@ -71,7 +71,7 @@ const Query = () => {
   return (
     <Container maxWidth="md">
       <form onSubmit={handleSubmit(submitHandler)}>
-        <Typography variant="h2" sx={smartStyles.title}>
+        <Typography variant="h2" sx={textStyles.title}>
           Query the LLM
         </Typography>
 
@@ -92,7 +92,7 @@ const Query = () => {
             </Typography>
           )}
           renderInput={(params) => (
-            <TextField sx={{ border: '1px solid black', color: 'black', borderRadius: 2 }} {...params} label="Checkboxes" placeholder="Favorites" />
+            <TextField sx={{ border: '1px solid black', color: 'black', borderRadius: 2 }} {...params} label="Models" placeholder="Favorites" />
           )}
         />
 
